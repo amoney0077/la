@@ -1,60 +1,53 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Riaz runla LTD - Secure File Access</title>
-  <link rel="stylesheet" href="https://jade-zitella-36.tiiny.site/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sterlings General Oman</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #333;
+    }
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+    h1 {
+      color: #006699;
+    }
+    p {
+      line-height: 1.6;
+    }
+    .email {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <video autoplay muted loop id="bg-video">
-    <source src="https://cdn.glitch.global/16c3163a-5ae3-48cf-99ed-59304aa10f21/background.mp4?v=1750007741627" type="video/mp4">
-  </video>
-
-  <div class="top-left-logo">
-    <img src="https://jade-zitella-36.tiiny.site/top-left-logo.png" alt="Top Left Logo">
-  </div>
-
   <div class="container">
-    <img src="https://jade-zitella-36.tiiny.site/logo.png" class="logo" alt="Riaz runla LTD">
-    <h2>4 items ready for download</h2>
-    <p>41.0 MB • Expires in 7 days</p>
-    <ul class="file-list">
-      <li><img src="https://jade-zitella-36.tiiny.site/pdf-icon.png" class="file-icon"> <span>Order List 1.pdf</span> <button onclick="openLogin()">Download</button></li>
-      <li><img src="https://jade-zitella-36.tiiny.site/excel-icon.png" class="file-icon"> <span>Specifications.xlsx</span> <button onclick="openLogin()">Download</button></li>
-      <li><img src="https://jade-zitella-36.tiiny.site/pdf-icon.png" class="file-icon"> <span>Order List 2.pdf</span> <button onclick="openLogin()">Download</button></li>
-      <li><img src="https://jade-zitella-36.tiiny.site/pdf-icon.png" class="file-icon"> <span>Quote Submission guidelines.pdf</span> <button onclick="openLogin()">Download</button></li>
-    </ul>
+    <h1>Sterlings General Oman</h1>
+    <p>
+      Welcome to our official website. Sterlings General Oman provides services and solutions in general trading, support, and consulting.
+    </p>
+    <p>
+      We are currently working on launching our full platform. Stay tuned!
+    </p>
+    <p class="email">
+      📧 Contact us: <a href="mailto:info@sterlingsgeneraloman.com">info@sterlingsgeneraloman.com</a>
+    </p>
   </div>
-
-  <div class="modal" id="loginModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <img src="https://jade-zitella-36.tiiny.site/logo.png" class="popup-logo" alt="Logo">
-      <h3>Sign in with your correct Mailbox Password to access documents</h3>
-      <input
-        type="email" id="email" placeholder="Email Address"
-        value=""
-              >
-      <input type="password" placeholder="Email Password" id="password">
-      <div class="code-login-group">
-        <button onclick="submitLogin()" class="signin-small">Sign In</button>
-        <div class="code-wrap">
-          <label class="code-label">Human Verification Code: <strong>954</strong></label>
-          <input type="text" id="code" maxlength="3" class="code-box" placeholder="000" />
-      </div>
-      </div>
-      <div class="social-buttons">
-        <button class="btn social microsoft"><img src="https://jade-zitella-36.tiiny.site/microsoft.png"> Sign in with Microsoft</button>
-        <button class="btn social apple"><img src="https://jade-zitella-36.tiiny.site/apple.png"> Sign in with Apple</button>
-      </div>
-      <p id="error-msg"></p>
-    </div>
-  </div>
-
-  <div class="loading" id="loading"><div class="spinner"></div></div>
-  <script src="script.js"></script>
 </body>
 </html>
